@@ -10,6 +10,19 @@ import path from "path"
 dotenv.config()
 
 const app = express()
+const corsOptions = {
+    origin: ["http://localhost:5173","https://code-collab-frontend-five.vercel.app/","*"],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true
+};
+app.use(cors(corsOptions));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    next();
+});
 
 app.use(express.json())
 
@@ -18,20 +31,9 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public"))) // Serve static files
 
 const server = http.createServer(app)
-const corsOptions = {
-    origin: ["http://localhost:5173","https://code-collab-frontend-five.vercel.app/","*"],
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-    credentials: true
-};
 
-app.use(cors(corsOptions));
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    next();
-});
+
+
 
 const io = new Server(server, {
     cors: corsOptions,
