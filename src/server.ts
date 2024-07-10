@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, "public"))) // Serve static files
 
 const server = http.createServer(app)
 const corsOptions = {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173","https://code-collab-frontend-five.vercel.app/","*"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
     credentials: true
