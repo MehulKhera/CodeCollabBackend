@@ -18,14 +18,20 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public"))) // Serve static files
 
 const server = http.createServer(app)
+const corsOptions = {
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
+
 const io = new Server(server, {
-	cors: {
-		origin: ["*","http://localhost:5173"],
-		methods:["GET","POST"]
-	},
-	maxHttpBufferSize: 1e8,
-	pingTimeout: 60000,
-})
+    cors: corsOptions,
+    maxHttpBufferSize: 1e8,
+    pingTimeout: 60000,
+});
 
 let userSocketMap: User[] = []
 
